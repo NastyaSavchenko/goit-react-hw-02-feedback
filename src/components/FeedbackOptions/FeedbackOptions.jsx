@@ -3,14 +3,14 @@ import PT from 'prop-types';
 
 const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return options.map(e => {
-    let stateKey = e;
+
     return (
       <button
         className={css.btn}
         type="button"
         key={e}
         onClick={() => {
-          onLeaveFeedback(stateKey);
+          onLeaveFeedback(e);
         }}
       >
         {e}

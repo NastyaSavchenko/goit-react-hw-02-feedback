@@ -1,8 +1,8 @@
 import css from './statistics.module.css';
-import React from 'react';
 import PT from 'prop-types';
 
 const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
+
   return (
     <div className={css.stats}>
       <span>Good: {good}</span>

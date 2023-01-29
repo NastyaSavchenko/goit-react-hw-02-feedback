@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PT from 'prop-types';
 import css from './app.module.css';
-import {Statistics, Notification, FeedbackOptions, Section} from '../components'
-
+import {
+  Statistics,
+  Notification,
+  FeedbackOptions,
+  Section,
+} from '../components';
 
 export class App extends Component {
-
   static defaultProps = {
     good: 0,
     neutral: 0,
@@ -24,9 +27,6 @@ export class App extends Component {
     bad: 0,
   };
 
-  total = 0;
-  percentage = 0;
-
   onBtnOptionClick = stateKey => {
     this.setState(prevState => {
       return {
@@ -36,21 +36,17 @@ export class App extends Component {
   };
 
   countTotalFeedback = () => {
-    const total = Object.values(this.state).reduce((a, b) => a + b);
-    this.total = total;
+    return Object.values(this.state).reduce((a, b) => a + b);
   };
 
   countPositiveFeedbackPercentage = () => {
-    if (this.total !== 0) {
-      const newPercentage = Math.floor((this.state.good * 100) / this.total);
-      this.percentage = newPercentage;
+    const total = this.countTotalFeedback()
+    if (total !== 0) {
+      return Math.floor((this.state.good * 100) / total);
     }
   };
 
   render() {
-    this.countTotalFeedback();
-    this.countPositiveFeedbackPercentage();
-
     return (
       <div className={css.feedbackWrapper}>
         <Section title="Please leave feedback">
@@ -61,13 +57,13 @@ export class App extends Component {
         </Section>
 
         <Section title="Statistics">
-          {this.total > 0 ? (
+          {this.countTotalFeedback() > 0 ? (
             <Statistics
               good={this.state.good}
               neutral={this.state.neutral}
               bad={this.state.bad}
-              total={this.total}
-              positivePercentage={this.percentage}
+              total={this.countTotalFeedback()}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
             ></Statistics>
           ) : (
             <Notification message="There is no feedback" />
